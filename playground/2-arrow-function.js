@@ -21,7 +21,10 @@ const event = {
 	printGuestList() { // best
 		console.log("Guest list for " + this.name);
 
-		this.guestList.forEach(function (guest) {
+		// this.guestList.forEach(function (guest) { bad
+		// 	console.log(guest + " is attending" + this.name);
+		// });
+		this.guestList.forEach((guest) => { // good
 			console.log(guest + " is attending" + this.name);
 		});
 	}
