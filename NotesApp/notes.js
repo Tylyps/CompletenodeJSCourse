@@ -5,6 +5,14 @@ const getNotes = () => {
 	return "Your notes...";
 };
 
+const listNotes = () => {
+	const notes = loadNotes();
+	console.log(chalk.bold.blue.inverse("Your notes"))
+	notes.forEach((note, i) => {
+		console.log(`Note ${i + 1}: ${chalk.blue(note.title)}`);
+	})
+}
+
 const addNote = (title, body) => {
 	const notes = loadNotes();
 	const duplicateNotes = notes.filter((note) => note.title === title);
@@ -54,5 +62,6 @@ const saveNotes = (notes = []) => {
 module.exports = {
 	getNotes,
 	addNote,
-	removeNote
+	removeNote,
+	listNotes
 };
