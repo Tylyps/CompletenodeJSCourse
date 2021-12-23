@@ -1,10 +1,6 @@
 const fs = require("fs");
 const chalk = require("chalk");
 
-const getNotes = () => {
-	return "Your notes...";
-};
-
 const readNote = (title) => {
 	const notes = loadNotes();
 	const findedNote = notes.find((note) => note.title === title);
@@ -72,7 +68,6 @@ const saveNotes = (notes = []) => {
 }
 
 module.exports = {
-	getNotes,
 	addNote,
 	removeNote,
 	listNotes,
