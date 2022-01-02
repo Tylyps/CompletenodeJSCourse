@@ -1,11 +1,8 @@
-console.log("Starting")
+const request = require('request')
 
-setTimeout(() => {
-	console.log("2 second timer")
-}, 2000)
+const url = "https://api.punkapi.com/v2/beers?brewed_before=11-2012&abv_gt=6"
 
-setTimeout(() => {
-	console.log("0 second timer")
-}, 0)
-
-console.log("Stopping")
+request({ url }, (error, response) => {
+	const data = JSON.parse(response.body)
+	console.log(data)
+})
