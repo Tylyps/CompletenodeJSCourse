@@ -5,17 +5,26 @@ console.log(__dirname)
 console.log(path.join(__dirname, "../public"))
 
 const app = express();
-const publicPath = path.join(__dirname, "../public");
+
 let test = 0;
 
-app.set("view engine", "hbs");
+// Define paths for express config
+const publicPath = path.join(__dirname, "../public");
+const viewsPath = path.join(__dirname, "../templates");
 
-app.use(express.static(publicPath))
+// Setup handlebars engine and views location
+app.set("view engine", "hbs");
+app.set("views", viewsPath);
+
+// Setup static directory to serve
+app.use(express.static(publicPath));
 
 app.get("", (req, res) => {
+	test++;
 	res.render("index", {
 		title: "Weather App",
-		name: "Test Testing"
+		name: "Test Testing",
+		test
 	})
 })
 
