@@ -1,5 +1,6 @@
 * {
 	margin: 0;
+	color: #fff;
 }
 
 h1 {
@@ -12,4 +13,8 @@ body {
 
 img {
 	width: 250px;
+}
+
+a {
+	color: #fff;
 }
