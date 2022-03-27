@@ -8,14 +8,6 @@ const { MongoClient, ObjectId } = mongodb;
 const connectionURL = "mongodb://127.0.0.1:27017"
 const databaseName = "task-manager"
 
-const id = new ObjectId()
-console.log(id)
-console.log(id.getTimestamp())
-console.log(id.id)
-console.log(id.id.length)
-console.log(id.toHexString())
-console.log(id.toHexString().length)
-
 MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) => {
 	if (error) {
 		console.log(error);
@@ -24,53 +16,35 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 	}
 
 	console.log("Connected to database correctly!");
-	const db = client.db(databaseName)
+	const db = client.db(databaseName);
 
-	// db.collection("users").insertOne({
-	// 	name: "Test10",
-	// 	age: 50
-	// }, (error, result) => {
-	// 	if (error) {
-	// 		return console.log("Unable to insert user");
-	// 	}
+// 	db.collection("users").findOne({ _id: new ObjectId("62406d73b60e9b51f679d12a") }, (err, user) => {
+// 		if (err) {
+// 			console.log(err);
+// 			return console.log("Unable to fetch User");
+// 		}
 
-	// 	console.log(result.insertedId)
-	// 	console.log(result)
-	// })
+// 		console.log(user);
+// 	})
 
-	// db.collection("users").insertMany([{
-	// 	name: "Test4",
-	// 	age: 30
-	// }, {
-	// 	name: "Test5",
-	// 	age: 27
-	// }], (err, result) => {
-	// 	if (error) {
-	// 		console.log(error);
-	// 		return console.log("Unable to insert documents!");
-	// 	};
+// 	db.collection("users").find({ age: 24 }).toArray((err, users) => {
+// 		if (err) {
+// 			console.log(err);
+// 			return console.log("Unable to fetch Users");
+// 		}
 
-	// 	console.log(result.insertedIds)
-	// })
+// 		console.log(users);
+// 	})
+	db.collection("tasks").findOne({ _id: new ObjectId("62408d4abc54b61cb701964a") }, (err, result) => {
+		if (err) {
+			return console.log(err)
+		}
 
-	// db.collection("tasks").insertMany([{
-	// 	description: "Description of task 1",
-	// 	completed: false
-	// }, {
-	// 	description: "Description of task 2",
-	// 	completed: true
-	// }, {
-	// 	description: "Description of task 3",
-	// 	completed: false
-	// }], (err, result) => {
-	// 	if (err) {
-	// 		console.log(err);
-	// 		return console.log("Unable to insert many tasks!")
-	// 	}
+		console.log(result)
+	})
 
-	// 	console.log("Successfully added many tasks")
-	// 	console.log(result.insertedIds)
-	// })
-
+	db.collection("tasks").find({ completed: false }).toArray((err, result) => {
+		console.log(result)
+	})
 
 })
