@@ -18,33 +18,24 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 	console.log("Connected to database correctly!");
 	const db = client.db(databaseName);
 
-// 	db.collection("users").findOne({ _id: new ObjectId("62406d73b60e9b51f679d12a") }, (err, user) => {
-// 		if (err) {
-// 			console.log(err);
-// 			return console.log("Unable to fetch User");
-// 		}
+	// db.collection("users").updateOne({
+	// 	_id: ObjectId("62408a51a5c81e377a7e9196")
+	// }, {
+	// 	$inc: {
+	// 		age: 20
+	// 	}
+	// })
+	// .then((result) => {
+	// 	console.log(result)
+	// }).catch((error) => {
+	// 	console.log(error)
+	// })
 
-// 		console.log(user);
-// 	})
-
-// 	db.collection("users").find({ age: 24 }).toArray((err, users) => {
-// 		if (err) {
-// 			console.log(err);
-// 			return console.log("Unable to fetch Users");
-// 		}
-
-// 		console.log(users);
-// 	})
-	db.collection("tasks").findOne({ _id: new ObjectId("62408d4abc54b61cb701964a") }, (err, result) => {
-		if (err) {
-			return console.log(err)
-		}
-
+	db.collection("tasks").updateMany({ completed: false }, { $set: { completed: true } })
+	.then((result) => {
 		console.log(result)
 	})
-
-	db.collection("tasks").find({ completed: false }).toArray((err, result) => {
-		console.log(result)
+	.catch((err) => {
+		console.log(err)
 	})
-
 })
