@@ -21,6 +21,32 @@ app.post("/users", (req, res) => {
 		});
 });
 
+app.get("/users", (req, res) => {
+	User.find({})
+		.then((value) => {
+			res.send(value);
+		})
+		.catch((e) => {
+			console.log(e);
+			res.status(400).send(e);
+		})
+});
+
+app.get("/users/:id", (req, res) => {
+	const { id } = req.params;
+	User.findById(id)
+		.then((user) => {
+			if (!user) {
+				return res.status(404).send(user)
+			}
+			res.send(user)
+		})
+		.catch((e) => {
+			console.log(e);
+			res.status(500).send(e);
+		})
+});
+
 app.post("/tasks", (req, res) => {
 	const task = new Task(req.body);
 	task.save()
