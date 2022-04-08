@@ -10,9 +10,21 @@ router.post("/users", async (req, res) => {
 		await user.save();
 		res.status(201).send(user);
 	} catch(e) {
-		res.status(400).send(e)
+		console.log(e);
+		res.status(400).send(e);
 	}
 });
+
+router.post("/users/login", async (req, res) => {
+	try {
+		const user = await User.findByCredentials(req.body.email, req.body.password);
+
+		res.send(user)
+	} catch (e) {
+		console.log(e);
+		res.status(400).send();
+	}
+})
 
 router.get("/users", async (req, res) => {
 
@@ -20,7 +32,8 @@ router.get("/users", async (req, res) => {
 		const users = await User.find({});
 		res.send(users);
 	} catch (e) {
-		res.status(500).send(e)
+		console.log(e);
+		res.status(500).send(e);
 	}
 });
 
@@ -34,6 +47,7 @@ router.get("/users/:id", async (req, res) => {
 		}
 		res.send(user)
 	} catch (e) {
+		console.log(e);
 		res.status(500).send(e);
 	}
 });
