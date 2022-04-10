@@ -10,18 +10,12 @@ const Task = mongoose.model("Task", {
 	completed: {
 		type: Boolean,
 		default: false
+	},
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: "User"
 	}
 });
-
-// const newTask = new Task({ description: "New task 1", completed: false });
-
-// newTask.save()
-// 	.then((v) => {
-// 		console.log(v);
-// 		console.log(newTask);
-// 	})
-// 	.catch((error) => {
-// 		console.log(error);
-// 	})
 
 module.exports = Task;
