@@ -1,6 +1,7 @@
 const express = require("express");
 const router = new express.Router();
 const User = require("../models/user");
+const { auth } = require("../middleware/auth");
 
 
 router.post("/users", async (req, res) => {
@@ -34,18 +35,11 @@ router.post("/users/login", async (req, res) => {
 	}
 })
 
-router.get("/users", async (req, res) => {
-
-	try {
-		const users = await User.find({});
-		res.send(users);
-	} catch (e) {
-		console.log(e);
-		res.status(500).send(e);
-	}
+router.get("/users/me", auth, async (req, res) => {
+	res.send(req.user);
 });
 
-router.get("/users/:id", async (req, res) => {
+router.get("/users/:id", auth, async (req, res) => {
 	const { id } = req.params;
 
 	try {
@@ -60,7 +54,7 @@ router.get("/users/:id", async (req, res) => {
 	}
 });
 
-router.patch("/users/:id", async (req, res) => {
+router.patch("/users/:id", auth, async (req, res) => {
 	const updates = Object.keys(req.body);
 	const allowedUpdates = ["name", "email", "password", "age"];
 
@@ -91,7 +85,7 @@ router.patch("/users/:id", async (req, res) => {
 	}
 });
 
-router.delete("/users/:id", async (req, res) => {
+router.delete("/users/:id", auth, async (req, res) => {
 	const { id } = req.params;
 
 	try {
