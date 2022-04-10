@@ -71,7 +71,7 @@ userSchema.methods.getPublicProfile = async function () {
 }
 
 //Override toJSON function
-userSchema.methods.toJSON = async function () {
+userSchema.methods.toJSON = function () {
 	const user = this;
 	const userObject = user.toObject();
 

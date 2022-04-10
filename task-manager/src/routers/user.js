@@ -25,6 +25,7 @@ router.post("/users/login", async (req, res) => {
 	try {
 		const user = await User.findByCredentials(req.body.email, req.body.password);
 		const token = await user.generateAuthToken()
+		console.log(user.toJSON())
 		res.send({
 			// user: user.getPublicProfile(),
 			user,
@@ -64,22 +65,7 @@ router.get("/users/me", auth, async (req, res) => {
 	res.send(req.user);
 });
 
-router.get("/users/:id", auth, async (req, res) => {
-	const { id } = req.params;
-
-	try {
-		const user = await User.findById(id);
-		if (!user) {
-			return res.status(404).send(user)
-		}
-		res.send(user)
-	} catch (e) {
-		console.log(e);
-		res.status(500).send(e);
-	}
-});
-
-router.patch("/users/:id", auth, async (req, res) => {
+router.patch("/users/me", auth, async (req, res) => {
 	const updates = Object.keys(req.body);
 	const allowedUpdates = ["name", "email", "password", "age"];
 
@@ -91,17 +77,11 @@ router.patch("/users/:id", auth, async (req, res) => {
 	}
 
 	try {
-		const user = await User.findById(id);
+		const user = req.user;
 
 		updates.forEach((update) => user[update] = req.body[update]);
 
 		await user.save()
-
-		// const user = await User.findByIdAndUpdate(id, req.body, { new: true, runValidators: true });
-
-		if (!user) {
-			return res.status(404).send();
-		}
 
 		res.send(user);
 	} catch (e) {
@@ -110,17 +90,14 @@ router.patch("/users/:id", auth, async (req, res) => {
 	}
 });
 
-router.delete("/users/:id", auth, async (req, res) => {
-	const { id } = req.params;
-
+router.delete("/users/me", auth, async (req, res) => {
 	try {
-		const user = await User.findByIdAndDelete(id);
-
-		if (!user) {
+		if (!req.user) {
 			return res.status(404).send()
 		}
 
-		res.send(user);
+		req.user.remove();
+		res.send(req.user);
 	} catch (e) {
 		console.log(e);
 		res.status(500).send(e);
