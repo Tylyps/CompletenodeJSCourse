@@ -60,6 +60,27 @@ userSchema.methods.generateAuthToken = async function () {
 	return token;
 }
 
+userSchema.methods.getPublicProfile = async function () {
+	const user = this;
+	const userObject = user.toObject();
+
+	delete userObject.password;
+	delete userObject.tokens;
+
+	return userObject;
+}
+
+//Override toJSON function
+userSchema.methods.toJSON = async function () {
+	const user = this;
+	const userObject = user.toObject();
+
+	delete userObject.password;
+	delete userObject.tokens;
+
+	return userObject;
+}
+
 // Login user via email and password, first check if user with email exist, next compare password, if everything is true return user
 userSchema.statics.findByCredentials = async (email, password) => {
 	const user = await User.findOne({ email });
