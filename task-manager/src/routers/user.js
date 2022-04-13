@@ -40,7 +40,6 @@ router.post("/users/login", async (req, res) => {
 })
 
 const upload = multer({
-	dest: "avatars",
 	limits: {
 		fileSize: 1 * 1000 * 1000
 	},
@@ -52,10 +51,28 @@ const upload = multer({
 	}
 })
 
-router.post("/users/me/avatar", upload.single("avatar"), (req, res) => {
-	res.send()
+router.post("/users/me/avatar", auth, upload.single("avatar"), async (req, res) => {
+	req.user.avatar = req.file.buffer
+	try {
+		await req.user.save()
+		res.send()
+	} catch(error) {
+		console.log(error)
+		res.status(500).send({ error: error.message })
+	}
 }, (error, req, res, next) => {
 	res.status(400).send({ error: error.message })
+})
+
+router.delete("/users/me/avatar", auth, async (req, res) => {
+	req.user.avatar = undefined
+	try {
+		await req.user.save()
+		res.send()
+	} catch(error) {
+		console.log(error)
+		res.status(500).send({ error: error.message })
+	}
 })
 
 router.post("/users/logout", auth, async (req, res) => {
