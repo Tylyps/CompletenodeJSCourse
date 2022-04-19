@@ -1,3 +1,7 @@
 body {
 	background: #999;
 }
+#chatContainer {
+	max-height: 300px;
+	overflow-y: scroll;
+}

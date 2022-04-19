@@ -9,7 +9,16 @@
 </head>
 <body>
 	<h1>Chat App!</h1>
-	<button id="increment">+1</button>
+	<div id="chatContainer"></div>
+	<form id="message-form" action="">
+		<input placeholder="Message">
+		<button>Send Message</button>
+	</form>
+	<button id="send-location">Send Location</button>
+	<!-- <form action="" method="get">
+		<input placeholder="Location">
+		<button>Search</button>
+	</form> -->
 </body>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/chat.js"></script>
